@@ -1,0 +1,19 @@
+# ---------------------------------------------------------------
+# Custom Suricata rules for the IDS lab (SIDs 1000001+ are for local use)
+# Copy to /var/lib/suricata/rules/local.rules and add "local.rules"
+# under rule-files in /etc/suricata/suricata.yaml
+# ---------------------------------------------------------------
+
+# Rule 1: Nmap SYN scan.
+# Fires when one source sends 20+ SYN packets within 5 seconds (typical of port scans).
+alert tcp any any -> $HOME_NET any (msg:"LAB Possible Nmap SYN scan detected"; flags:S; threshold:type both, track by_src, count 20, seconds 5; classtype:attempted-recon; sid:1000001; rev:1;)
+
+# Rule 2: ICMP flood.
+# Fires when one source sends 50+ ping requests within 5 seconds.
+alert icmp any any -> $HOME_NET any (msg:"LAB ICMP flood detected"; itype:8; threshold:type both, track by_src, count 50, seconds 5; classtype:attempted-dos; sid:1000002; rev:1;)
+
+# Rule 3a: Telnet connection attempt (port 23 is unencrypted and risky).
+alert tcp any any -> $HOME_NET 23 (msg:"LAB Telnet connection attempt"; flow:to_server; flags:S; classtype:policy-violation; sid:1000003; rev:1;)
+
+# Rule 3b: FTP login attempt (the USER command is sent in plain text).
+alert tcp any any -> $HOME_NET 21 (msg:"LAB FTP login attempt (USER command)"; flow:to_server,established; content:"USER "; nocase; depth:5; classtype:attempted-user; sid:1000004; rev:1;)
