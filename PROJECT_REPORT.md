@@ -1,8 +1,8 @@
 # Network Intrusion Detection System Lab Using Suricata and Python
 
-**Submitted by:** <Your AnantaMunda>  
-**Institution:** < College GovernmentEngineeringCollegeBokaro>  
-**Date:** <Date 23/11/2026>
+**Submitted by:** <AnantaMunda>  
+**Institution:** <GovernmentEngineeringCollegeBokaro>  
+**Date:** <23/11/2026>
 
 ---
 
